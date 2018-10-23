@@ -6,9 +6,8 @@
 
 letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
 
-tempthing = "1234567890"
-name = "words.txt"
-handle = open(name,'r')
+filename = "words.txt"
+handle = open(filename,'r')
 text = handle.read()
 words = text.split()
 
@@ -44,9 +43,18 @@ for word in words:
     elif len(word)==10:
         letters10.append(word.upper())
     
-print("Eight letter words:",letters8)
 
-#bigarray = []
+# numfound = False
+while True:
+    phoneno = input("Please enter a phone number - numbers only ")
+    try:
+        int(phoneno)
+        break
+    except:
+        continue
+
+print("You entered", phoneno)
+    #bigarray = []
 
 #for number in range(100000):
 #    bigarray.append("asdfsdds")
