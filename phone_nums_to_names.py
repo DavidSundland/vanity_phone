@@ -1,0 +1,80 @@
+# letters = [["0"],["1"],["A","B","C","2"],["D","E","F","3"],["G","H","I","4"],["J","K","L","5"],["M","N","O","6"],["P","Q","R","S","7"],["T","U","V","8"],["W","X","Y","Z","9"]]
+
+letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
+
+tempthing = "1234567890"
+name = "words.txt"
+handle = open(name,'r')
+text = handle.read()
+words = text.split()
+
+longcount = shortcount = 0
+
+for word in words:
+    if len(word)>10:
+        longcount+=1
+    else:
+        shortcount+=1
+    
+print(longcount,"words over 10 letters long and",shortcount,"words of 10 or fewer letters")
+
+#bigarray = []
+
+#for number in range(100000):
+#    bigarray.append("asdfsdds")
+    
+#bigarray[50000]="the"
+
+#for testword in bigarray:
+#    if testword in words:
+#        print(testword,"is a word")
+
+#####   FUNCTIONS BELOW WERE BROUGHT IN FROM OTHER PROGRAM...
+#function to create the dictionary and count word occurrences
+#def lyrics_to_frequencies(lyrics):
+#    myDict = {}
+#    for word in lyrics:
+#        word = word.lower()
+#        word = word.rstrip(',.;:!?()"')
+#        word = word.lstrip('"')
+ #       if word in myDict:
+ #           myDict[word] += 1
+ #       else:
+ #           myDict[word] = 1
+ #   return myDict
+    
+#function counts the most common words (returns all words that tie for the greatest frequency, as well as the number of occurrences).  A dictionary should be passed to it - words & number of occurrences (the results of the lyrics_to_frequencies function).
+#def most_common_words(freqs):
+#    values = freqs.values()
+#    best = max(values)
+#    words = []
+#    for k in freqs:
+#        if freqs[k] == best:
+#            words.append(k)
+#    return (words, best)
+    
+#function returns all words that occur at least a specified minimum number of times.  Uses as input the dictionary created by lyrics_to_frequencies and the desired number of occurrences.  NOTE - it works by MUTATING THE ORIGINAL DICTIONARY, deleting words that meet the criteria.
+#def words_often(freqs, minTimes):
+#    result = []
+#    done = False
+#    while not done:
+#        temp = most_common_words(freqs)
+#        if temp[1] >= minTimes:
+#            result.append(temp)
+#            for w in temp[0]:
+#                del(freqs[w])
+#        else:
+#            done = True
+#    return result
+
+#print("This program returns a list of the words in a file that occur at least as many times as the frequency that is requested by the user.")
+#name = input('Please enter a file name (full path), or simply hit "enter" to use the default file:')
+#mincount = input('Enter minimum number of word occurrences to return:')
+#if name == "":
+#    name = "c:\python27\myprograms\Text01.txt"
+#handle = open(name,'r')
+#text = handle.read()
+#words = text.split()
+
+#worddict = lyrics_to_frequencies(words)
+#print(words_often(worddict, int(mincount)))    
