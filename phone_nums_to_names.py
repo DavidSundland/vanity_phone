@@ -11,37 +11,37 @@ handle = open(filename,'r')
 text = handle.read()
 words = text.split()
 
-letters1 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-letters2 = []
-letters3 = []
-letters4 = []
-letters5 = []
-letters6 = []
-letters7 = []
-letters8 = []
-letters9 = []
-letters10 = []
+words1 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+words2 = []
+words3 = []
+words4 = []
+words5 = []
+words6 = []
+words7 = []
+words8 = []
+words9 = []
+words10 = []
 
 # to speed checking, divide words by length (if first 5 numbers of 10-digit # match a word, no need comparing remaining 5 to words of length 6 or greater...)
 for word in words:
     if len(word)==2:
-        letters2.append(word.upper())
+        words2.append(word.upper())
     elif len(word)==3:
-        letters3.append(word.upper())
+        words3.append(word.upper())
     elif len(word)==4:
-        letters4.append(word.upper())
+        words4.append(word.upper())
     elif len(word)==5:
-        letters5.append(word.upper())
+        words5.append(word.upper())
     elif len(word)==6:
-        letters6.append(word.upper())
+        words6.append(word.upper())
     elif len(word)==7:
-        letters7.append(word.upper())
+        words7.append(word.upper())
     elif len(word)==8:
-        letters8.append(word.upper())
+        words8.append(word.upper())
     elif len(word)==9:
-        letters9.append(word.upper())
+        words9.append(word.upper())
     elif len(word)==10:
-        letters10.append(word.upper())
+        words10.append(word.upper())
     
 
 # can add more tests in future (7 or 10 digits), allow other formats, etc....
@@ -64,7 +64,18 @@ for digit in phoneno:
             newpossibilities.append(possible+onelet)
     possibles = newpossibilities.copy()
 
-print(possibles)
+matches = []
+for possible in possibles:
+    if possible in words10:
+        matches.append(possible)
+        
+if len(matches) == 0:
+    print("We found no matches")
+else:
+    print("Your matches:")
+    for match in matches:
+        print(match)
+        
 #for number in range(100000):
 #    bigarray.append("asdfsdds")
     
