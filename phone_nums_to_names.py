@@ -1,3 +1,7 @@
+# A program to convert phone numbers to a combination of English words (when possible) - 697-466-3686 could become MYPHONENUM; 724-6837 could become PAINTER
+# Computation time may be the biggest challenge - if both numbers AND the corresponding letters are checked, a 10-digit phone number could result in over 1 million combinations, each to be checked against a dictionary of over 50,000 words...
+# Some numbers will have multiple results, others will have none.  Since no letters correspond to the 0 or 1 keys, those numbers can't be converted to letters.
+
 # letters = [["0"],["1"],["A","B","C","2"],["D","E","F","3"],["G","H","I","4"],["J","K","L","5"],["M","N","O","6"],["P","Q","R","S","7"],["T","U","V","8"],["W","X","Y","Z","9"]]
 
 letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
@@ -8,15 +12,39 @@ handle = open(name,'r')
 text = handle.read()
 words = text.split()
 
-longcount = shortcount = 0
+letters1 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+letters2 = []
+letters3 = []
+letters4 = []
+letters5 = []
+letters6 = []
+letters7 = []
+letters8 = []
+letters9 = []
+letters10 = []
 
+# to speed checking, divide words by length (if first 5 numbers of 10-digit # match a word, no need comparing remaining 5 to words of length 6 or greater...)
 for word in words:
-    if len(word)>10:
-        longcount+=1
-    else:
-        shortcount+=1
+    if len(word)==2:
+        letters2.append(word.upper())
+    elif len(word)==3:
+        letters3.append(word.upper())
+    elif len(word)==4:
+        letters4.append(word.upper())
+    elif len(word)==5:
+        letters5.append(word.upper())
+    elif len(word)==6:
+        letters6.append(word.upper())
+    elif len(word)==7:
+        letters7.append(word.upper())
+    elif len(word)==8:
+        letters8.append(word.upper())
+    elif len(word)==9:
+        letters9.append(word.upper())
+    elif len(word)==10:
+        letters10.append(word.upper())
     
-print(longcount,"words over 10 letters long and",shortcount,"words of 10 or fewer letters")
+print("Eight letter words:",letters8)
 
 #bigarray = []
 
