@@ -44,7 +44,7 @@ for word in words:
         letters10.append(word.upper())
     
 
-# numfound = False
+# can add more tests in future (7 or 10 digits), allow other formats, etc....
 while True:
     phoneno = input("Please enter a phone number - numbers only ")
     try:
@@ -54,8 +54,17 @@ while True:
         continue
 
 print("You entered", phoneno)
-    #bigarray = []
 
+
+possibles = [""]
+for digit in phoneno:
+    newpossibilities = []
+    for possible in possibles:
+        for onelet in letters[int(digit)]:
+            newpossibilities.append(possible+onelet)
+    possibles = newpossibilities.copy()
+
+print(possibles)
 #for number in range(100000):
 #    bigarray.append("asdfsdds")
     
