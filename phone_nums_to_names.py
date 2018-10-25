@@ -43,40 +43,45 @@ wordSplitStart = datetime.now()
 filename = "words.txt"
 handle = open(filename,'r')
 text = handle.read()
-words = text.split()
+wordlist = text.split()
 
-words1 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-words2 = []
-words3 = []
-words4 = []
-words5 = []
-words6 = []
-words7 = []
-words8 = []
-words9 = []
-words10 = []
+# seed list of words with empty array for 0, letters of alphabet for 1, and empty arrays for 2 through 10
+words = [[],['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],[],[],[],[],[],[],[],[],[]]
+#words2 = []
+#words3 = []
+#words4 = []
+#words5 = []
+#words6 = []
+#words7 = []
+#words8 = []
+#words9 = []
+#words10 = []
 
 # to speed checking, divide words by length (if first 5 numbers of 10-digit # match a word, no need comparing remaining 5 to words of length 6 or greater...)
 
-for word in words:
-    if len(word)==2:
-        words2.append(word.upper())
-    elif len(word)==3:
-        words3.append(word.upper())
-    elif len(word)==4:
-        words4.append(word.upper())
-    elif len(word)==5:
-        words5.append(word.upper())
-    elif len(word)==6:
-        words6.append(word.upper())
-    elif len(word)==7:
-        words7.append(word.upper())
-    elif len(word)==8:
-        words8.append(word.upper())
-    elif len(word)==9:
-        words9.append(word.upper())
-    elif len(word)==10:
-        words10.append(word.upper())
+for word in wordlist:
+    if len(word) > 1 and len(word) < 11:
+        words[len(word)].append(word.upper())
+
+#for word in words:
+#    if len(word)==2:
+#        words2.append(word.upper())
+#    elif len(word)==3:
+#        words3.append(word.upper())
+#    elif len(word)==4:
+#        words4.append(word.upper())
+#    elif len(word)==5:
+#        words5.append(word.upper())
+#    elif len(word)==6:
+#        words6.append(word.upper())
+#    elif len(word)==7:
+#        words7.append(word.upper())
+#    elif len(word)==8:
+#        words8.append(word.upper())
+#    elif len(word)==9:
+#        words9.append(word.upper())
+#    elif len(word)==10:
+#        words10.append(word.upper())
 
 wordSplitEnd = datetime.now()      
 print("Splitting the word list into categories took", (wordSplitEnd-wordSplitStart).total_seconds(), "seconds.")
@@ -109,21 +114,28 @@ matches = set()
 
 
 matchStart = datetime.now()
-for possible in possibles:
-    if sortedFind(possible, words10):
-        matches.add(possible)
-matchEnd = datetime.now()      
-print("Checking for 10-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
+# for possible in possibles:
+#    if sortedFind(possible, words10):
+#        matches.add(possible)
+#matchEnd = datetime.now()      
+#print("Checking for 10-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
-matchStart = datetime.now()
-shortener = 1 #start looking for shorter words - decrease length by 'shortener' amount; ultimately loop through possibilities...
-for possible in possibles:
-    for step in range(shortener+1):
-        if sortedFind(possible[step:len(possible)-shortener+step], words9):
-            matches.add(possible[step:len(possible)-shortener+step])
-matchEnd = datetime.now()      
-print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
+#matchStart = datetime.now()
+#shortener = 1 #start looking for shorter words - decrease length by 'shortener' amount; ultimately loop through possibilities...
+#for possible in possibles:
+#    for step in range(shortener+1):
+#        if sortedFind(possible[step:len(possible)-shortener+step], words9):
+#            matches.add(possible[step:len(possible)-shortener+step])
+#matchEnd = datetime.now()      
+#print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
+for shortener in range(9):
+    for possible in possibles:
+        for step in range(shortener+1):
+            if sortedFind(possible[step:len(possible)-shortener+step], words[10-shortener]):
+                matches.add(possible[step:len(possible)-shortener+step])
+matchEnd = datetime.now()      
+print("Checking for words of all lengths (1 pass) took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
 if len(matches) == 0:
     print("We found no matches")
