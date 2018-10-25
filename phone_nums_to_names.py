@@ -6,7 +6,11 @@
 
 from datetime import datetime
 
+letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
+
 def sortedFind(word, sortedList):
+    if word == sortedList[0] or word == sortedList[-1]:
+        return True
     startpoint = 0
     endpoint = len(sortedList)
     midpoint = (endpoint-startpoint)//2
@@ -21,8 +25,19 @@ def sortedFind(word, sortedList):
             midpoint = (midpoint-startpoint)//2 + startpoint
     return False
 
+def createNumber(word):
+    returnNumber = ""
+    word = word.upper()
+    for letter in word:
+        for onelist in range(len(letters)):
+            if letter in letters[onelist]:
+                returnNumber += str(onelist)
+                break
+    return returnNumber
+    
 
-letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
+thingie = input("Enter a word to test: ")
+print(createNumber(thingie))
 
 wordSplitStart = datetime.now()
 filename = "words.txt"
