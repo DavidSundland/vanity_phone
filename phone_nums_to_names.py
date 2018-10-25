@@ -6,6 +6,20 @@
 
 from datetime import datetime
 
+def sortedFind(word, sortedList):
+    startpoint = 0
+    endpoint = len(sortedList)
+    midpoint = (endpoint-startpoint)//2
+    while midpoint > startpoint and midpoint < endpoint:
+        if sortedList[midpoint] == word:
+            return True
+        if word > sortedList[midpoint]:
+            startpoint = midpoint
+            midpoint = (endpoint-midpoint)//2 + midpoint
+        else:
+            endpoint = midpoint
+            midpoint = (midpoint-startpoint)//2 + startpoint
+    return False
 
 
 letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
@@ -82,7 +96,16 @@ for possible in possibles:
         matches.append(possible)
         
 matchEnd = datetime.now()      
-print("Checking for matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
+print("Checking for matches with built-in 'in' took", (matchEnd-matchStart).total_seconds(), "seconds.")
+
+matchStart = datetime.now()
+for possible in possibles:
+    if sortedFind(possible, words10):
+        matches.append(possible)
+        
+matchEnd = datetime.now()      
+print("Checking for matches with 'sortedFind' took", (matchEnd-matchStart).total_seconds(), "seconds.")
+
 
 if len(matches) == 0:
     print("We found no matches")
