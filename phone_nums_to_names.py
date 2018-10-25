@@ -104,22 +104,25 @@ possiblesEnd = datetime.now()
 print("Finding possible combinations took", (possiblesEnd-possiblesStart).total_seconds(), "seconds.")
 
 
-matchStart = datetime.now()
-matches = []
-for possible in possibles:
-    if possible in words10:
-        matches.append(possible)
-        
-matchEnd = datetime.now()      
-print("Checking for matches with built-in 'in' took", (matchEnd-matchStart).total_seconds(), "seconds.")
+#matchStart = datetime.now()
+matches = set()
+
 
 matchStart = datetime.now()
 for possible in possibles:
     if sortedFind(possible, words10):
-        matches.append(possible)
-        
+        matches.add(possible)
 matchEnd = datetime.now()      
-print("Checking for matches with 'sortedFind' took", (matchEnd-matchStart).total_seconds(), "seconds.")
+print("Checking for 10-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
+
+matchStart = datetime.now()
+shortener = 1 #start looking for shorter words - decrease length by 'shortener' amount; ultimately loop through possibilities...
+for possible in possibles:
+    for step in range(shortener+1):
+        if sortedFind(possible[step:len(possible)-shortener+step], words9):
+            matches.add(possible[step:len(possible)-shortener+step])
+matchEnd = datetime.now()      
+print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
 
 if len(matches) == 0:
