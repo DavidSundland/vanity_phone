@@ -129,10 +129,11 @@ matchStart = datetime.now()
 #matchEnd = datetime.now()      
 #print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
-for shortener in range(9):
+print(len(phoneno))
+for shortener in range(len(phoneno)-1):
     for possible in possibles:
         for step in range(shortener+1):
-            if sortedFind(possible[step:len(possible)-shortener+step], words[10-shortener]):
+            if sortedFind(possible[step:len(possible)-shortener+step], words[len(phoneno)-shortener]):
                 matches.add(possible[step:len(possible)-shortener+step])
 matchEnd = datetime.now()      
 print("Checking for words of all lengths (1 pass) took", (matchEnd-matchStart).total_seconds(), "seconds.")
