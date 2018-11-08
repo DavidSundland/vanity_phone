@@ -12,17 +12,17 @@ def sortedFind(word, sortedList):
 #    if word == sortedList[0] or word == sortedList[-1]:
 #        return True
     startpoint = 0
-    if word == "SOFTEN":
-        print("testing soften")
+#    if word == "SOFTEN":
+#        print("testing soften")
     endpoint = len(sortedList)
 #    midpoint = (endpoint-startpoint)//2
-    counter = 0
-    while startpoint < endpoint and counter < 1000:
+#    counter = 0
+    while startpoint < endpoint:
 #        print(endpoint, startpoint)
         midpoint = (endpoint-startpoint)//2+startpoint
-        if word == "SOFTEN":
-            print("before ifs:", startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
-        counter+=1
+#        if word == "SOFTEN":
+#            print("before ifs:", startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
+#        counter+=1
 #        print(endpoint, startpoint, midpoint)
         if sortedList[midpoint] == word:
             return True
@@ -30,35 +30,35 @@ def sortedFind(word, sortedList):
             startpoint = midpoint+1
         else:
             endpoint = midpoint
-        if word == "SOFTEN":
-            print("after ifs:", startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
-    if counter >= 1000:
-        print(startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
+#        if word == "SOFTEN":
+#            print("after ifs:", startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
+#    if counter >= 1000:
+#        print(startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
     return False
 
 
-def sortedlyFind(word, sortedList):
-    if word == sortedList[0] or word == sortedList[-1]:
-        return True
-    startpoint = 0
-    endpoint = len(sortedList)
-    midpoint = (endpoint-startpoint)//2
-    counter = 0
-    while startpoint < endpoint and counter < 1000:
-        counter+=1
-        if sortedList[midpoint] == word:
-            return True
-        if word > sortedList[midpoint]:
-            startpoint = midpoint
-            midpoint = (endpoint-midpoint)//2 + midpoint
-        else:
-            endpoint = midpoint
-            midpoint = (midpoint-startpoint)//2 + startpoint
-        if endpoint - startpoint == 1 and sortedList[startpoint] != word and sortedList[endpoint] != word:
-            return False
-        if counter >= 1000:
-            print(startpoint, midpoint, endpoint, word > sortedList[midpoint])
-    return False
+#def sortedlyFind(word, sortedList):
+#    if word == sortedList[0] or word == sortedList[-1]:
+#        return True
+#    startpoint = 0
+#    endpoint = len(sortedList)
+#    midpoint = (endpoint-startpoint)//2
+#    counter = 0
+#    while startpoint < endpoint and counter < 1000:
+#        counter+=1
+#        if sortedList[midpoint] == word:
+#            return True
+#        if word > sortedList[midpoint]:
+#            startpoint = midpoint
+#            midpoint = (endpoint-midpoint)//2 + midpoint
+#        else:
+#            endpoint = midpoint
+#            midpoint = (midpoint-startpoint)//2 + startpoint
+#        if endpoint - startpoint == 1 and sortedList[startpoint] != word and sortedList[endpoint] != word:
+#            return False
+#        if counter >= 1000:
+#            print(startpoint, midpoint, endpoint, word > sortedList[midpoint])
+#    return False
 
 def createNumber(word):
     returnNumber = ""
@@ -106,19 +106,19 @@ words = [[],['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q'
 # to speed checking, divide words by length (if first 5 numbers of 10-digit # match a word, no need comparing remaining 5 to words of length 6 or greater...)
 
 for word in wordlist:
-    if word.upper() == "SOFTEN":
-        print("found soften, its length: ", len(word))
+#    if word.upper() == "SOFTEN":
+#        print("found soften, its length: ", len(word))
     if len(word) > 1 and len(word) < 11:
         words[len(word)].append(word.upper())
 
-        
-for wordlength in range(2,11):
-    print("sort testing words of length", wordlength)
-    counter = 0
-    for aword in range(len(words[wordlength])-1):
-        if words[wordlength][aword]>words[wordlength][aword+1]:
-            counter += 1
-    print("found", counter, "words out of", len(words[wordlength]), "words of length", wordlength, "that were out of order.")
+# no longer need test - test had been created to determine if word list was fully sorted (it wasn't)
+#for wordlength in range(2,11):
+#    print("sort testing words of length", wordlength)
+#    counter = 0
+#    for aword in range(len(words[wordlength])-1):
+#        if words[wordlength][aword]>words[wordlength][aword+1]:
+#            counter += 1
+#    print("found", counter, "words out of", len(words[wordlength]), "words of length", wordlength, "that were out of order.")
 
 #for word in words:
 #    if len(word)==2:
@@ -187,7 +187,7 @@ matchStart = datetime.now()
 #matchEnd = datetime.now()      
 #print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
-print(len(phoneno))
+# print(len(phoneno))
 for shortener in range(len(phoneno)-1):
     for possible in possibles:
         for step in range(shortener+1):
@@ -203,9 +203,9 @@ else:
     for match in matches:
         print(match)
 
-print("trying to find soften")
-for oneindex in range(6260,6270):
-    print(oneindex, words[6][oneindex])
+#print("trying to find soften")
+#for oneindex in range(6260,6270):
+#    print(oneindex, words[6][oneindex])
 
 #for number in range(100000):
 #    bigarray.append("asdfsdds")
