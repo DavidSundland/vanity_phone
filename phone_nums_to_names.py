@@ -204,7 +204,8 @@ if len(matches) == 0:
 else:
     print("Your matches:")
     for match in matches:
-        print(match)
+        oneresult = phoneno[:match[1]]+match[0]+phoneno[match[2]:]
+        print(oneresult)
 
 #print("trying to find soften")
 #for oneindex in range(6260,6270):
