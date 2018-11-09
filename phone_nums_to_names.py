@@ -188,11 +188,14 @@ matchStart = datetime.now()
 #print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
 # print(len(phoneno))
+
+# step through each possible combination, starting with longest word
 for shortener in range(len(phoneno)-1):
     for possible in possibles:
-        for step in range(shortener+1):
-            if sortedFind(possible[step:len(possible)-shortener+step], words[len(phoneno)-shortener]):
-                matches.add(possible[step:len(possible)-shortener+step])
+        for pointer in range(shortener+1):
+            wordLen = len(possible)-shortener
+            if sortedFind(possible[pointer:wordLen+pointer], words[wordLen]):
+                matches.add((possible[pointer:wordLen+pointer],pointer,wordLen+pointer))
 matchEnd = datetime.now()      
 print("Checking for words of all lengths (1 pass) took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
