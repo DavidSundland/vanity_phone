@@ -120,25 +120,6 @@ for word in wordlist:
 #            counter += 1
 #    print("found", counter, "words out of", len(words[wordlength]), "words of length", wordlength, "that were out of order.")
 
-#for word in words:
-#    if len(word)==2:
-#        words2.append(word.upper())
-#    elif len(word)==3:
-#        words3.append(word.upper())
-#    elif len(word)==4:
-#        words4.append(word.upper())
-#    elif len(word)==5:
-#        words5.append(word.upper())
-#    elif len(word)==6:
-#        words6.append(word.upper())
-#    elif len(word)==7:
-#        words7.append(word.upper())
-#    elif len(word)==8:
-#        words8.append(word.upper())
-#    elif len(word)==9:
-#        words9.append(word.upper())
-#    elif len(word)==10:
-#        words10.append(word.upper())
 
 wordSplitEnd = datetime.now()      
 print("Splitting the word list into categories took", (wordSplitEnd-wordSplitStart).total_seconds(), "seconds.")
@@ -167,11 +148,6 @@ possiblesEnd = datetime.now()
 print("Finding possible combinations took", (possiblesEnd-possiblesStart).total_seconds(), "seconds.")
 
 
-#matchStart = datetime.now()
-matches = set()
-
-
-matchStart = datetime.now()
 # for possible in possibles:
 #    if sortedFind(possible, words10):
 #        matches.add(possible)
@@ -189,83 +165,56 @@ matchStart = datetime.now()
 
 # print(len(phoneno))
 
+
+
+matchStart = datetime.now()
+matches = set()
+
+
 # step through each possible combination, starting with longest word
 for shortener in range(len(phoneno)-1):
     for possible in possibles:
         for pointer in range(shortener+1):
             wordLen = len(possible)-shortener
             if sortedFind(possible[pointer:wordLen+pointer], words[wordLen]):
-                matches.add((possible[pointer:wordLen+pointer],pointer,wordLen+pointer))
+                # when words are found, add them to the list, along with their start and end indexes within the phone number
+                
+                # ADD NEW CODE HERE - CALL FIND, IF WORD NOT FOUND, CONTINUE, IF WORD FOUND, CALL AGAIN WITH AVAILABLE SPACE TO RIGHT??...
+                
+                matches.add((pointer,wordLen+pointer-1,possible[pointer:wordLen+pointer]))
 matchEnd = datetime.now()      
 print("Checking for words of all lengths (1 pass) took", (matchEnd-matchStart).total_seconds(), "seconds.")
+
+fullList = set()
+def checkAgain(start,end):
+    moreStuff = set()
+    for match in matches:
+        if match[0] >= start and match[1] < end:
+            moreStuff.add(match)
+    return moreStuff
 
 if len(matches) == 0:
     print("We found no matches")
 else:
-    print("Your matches:")
+#    print("Your matches:")
     for match in matches:
-        oneresult = phoneno[:match[1]]+match[0]+phoneno[match[2]:]
-        print(oneresult)
+        fullList.add((phoneno[:match[0]]+'-'+match[2]+'-'+phoneno[match[1]+1:]).strip('-'))
+        if match[0] > 1:
+            pres = checkAgain(0,match[0])
+            for pre in pres:
+                print("pre:", pre, "match[2]:", match[2],"fullList.add:",(phoneno[:pre[0]]+'-'+phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+                print("phoneno[:pre[0]]:",phoneno[:pre[0]],"phoneno[pre[1]+1:match[0]]:",phoneno[pre[1]+1:match[0]],"match[2]:",match[2],"phoneno[match[1]+1:]:",phoneno[match[1]+1:])
+                fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+                
+for oneThing in fullList:
+    print(oneThing)
 
-#print("trying to find soften")
-#for oneindex in range(6260,6270):
-#    print(oneindex, words[6][oneindex])
 
-#for number in range(100000):
-#    bigarray.append("asdfsdds")
+# sample result in matches:
+# (5, 8, 'FAD')
+# a tuple with the word that was found, its starting index in the phone number, and its ending index
+# need to add in all possibilities for missing digits...
+# finalList = set()
+
+#for match in matches:
     
-#bigarray[50000]="the"
-
-#for testword in bigarray:
-#    if testword in words:
-#        print(testword,"is a word")
-
-#####   FUNCTIONS BELOW WERE BROUGHT IN FROM OTHER PROGRAM...
-#function to create the dictionary and count word occurrences
-#def lyrics_to_frequencies(lyrics):
-#    myDict = {}
-#    for word in lyrics:
-#        word = word.lower()
-#        word = word.rstrip(',.;:!?()"')
-#        word = word.lstrip('"')
- #       if word in myDict:
- #           myDict[word] += 1
- #       else:
- #           myDict[word] = 1
- #   return myDict
-    
-#function counts the most common words (returns all words that tie for the greatest frequency, as well as the number of occurrences).  A dictionary should be passed to it - words & number of occurrences (the results of the lyrics_to_frequencies function).
-#def most_common_words(freqs):
-#    values = freqs.values()
-#    best = max(values)
-#    words = []
-#    for k in freqs:
-#        if freqs[k] == best:
-#            words.append(k)
-#    return (words, best)
-    
-#function returns all words that occur at least a specified minimum number of times.  Uses as input the dictionary created by lyrics_to_frequencies and the desired number of occurrences.  NOTE - it works by MUTATING THE ORIGINAL DICTIONARY, deleting words that meet the criteria.
-#def words_often(freqs, minTimes):
-#    result = []
-#    done = False
-#    while not done:
-#        temp = most_common_words(freqs)
-#        if temp[1] >= minTimes:
-#            result.append(temp)
-#            for w in temp[0]:
-#                del(freqs[w])
-#        else:
-#            done = True
-#    return result
-
-#print("This program returns a list of the words in a file that occur at least as many times as the frequency that is requested by the user.")
-#name = input('Please enter a file name (full path), or simply hit "enter" to use the default file:')
-#mincount = input('Enter minimum number of word occurrences to return:')
-#if name == "":
-#    name = "c:\python27\myprograms\Text01.txt"
-#handle = open(name,'r')
-#text = handle.read()
-#words = text.split()
-
-#worddict = lyrics_to_frequencies(words)
-#print(words_often(worddict, int(mincount)))    
