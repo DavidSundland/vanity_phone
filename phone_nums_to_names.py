@@ -163,9 +163,31 @@ else:
             pres = checkAgain(0,match[0])
             for pre in pres:
                 fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+                
+firstSort = []
+for item in fullList:
+    firstSort.append(item)
+firstSort.sort()
 
-finalList = [fullList.pop()]                
-for oneThing in fullList:
+### SORT THE LIST BASED UPON THE NUMBER OF DASHES FOUND (want, say, "FREEHOLD" to appear before "FREE-HOLD")
+### SORTING IN REVERSE OF DESIRED ORDER SINCE NEXT SORT REVERSES THIS SORT
+semifinalList = [firstSort.pop(0)]                
+for oneThing in firstSort:
+    dashLength = oneThing.count('-')
+    found = False
+    for anIndex in range(len(semifinalList)):
+        if dashLength > semifinalList[anIndex].count('-'):
+            found = True
+            semifinalList = semifinalList[:anIndex] + [oneThing] + semifinalList[anIndex:]
+            break
+    if not found:
+        semifinalList.append(oneThing)
+
+
+
+### SORT THE LIST BASED UPON THE NUMBER OF LETTERS FOUND
+finalList = [semifinalList.pop()]                
+for oneThing in semifinalList:
     letterLength = len(re.findall("[A-Z]", oneThing))
     found = False
     for anIndex in range(len(finalList)):
