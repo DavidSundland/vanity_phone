@@ -5,60 +5,23 @@
 # letters = [["0"],["1"],["A","B","C","2"],["D","E","F","3"],["G","H","I","4"],["J","K","L","5"],["M","N","O","6"],["P","Q","R","S","7"],["T","U","V","8"],["W","X","Y","Z","9"]]
 
 from datetime import datetime
-
+import re
 letters = [["0"],["1"],["A","B","C"],["D","E","F"],["G","H","I"],["J","K","L"],["M","N","O"],["P","Q","R","S"],["T","U","V"],["W","X","Y","Z"]]
 
 def sortedFind(word, sortedList):
-#    if word == sortedList[0] or word == sortedList[-1]:
-#        return True
     startpoint = 0
-#    if word == "SOFTEN":
-#        print("testing soften")
     endpoint = len(sortedList)
-#    midpoint = (endpoint-startpoint)//2
-#    counter = 0
     while startpoint < endpoint:
-#        print(endpoint, startpoint)
         midpoint = (endpoint-startpoint)//2+startpoint
-#        if word == "SOFTEN":
-#            print("before ifs:", startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
-#        counter+=1
-#        print(endpoint, startpoint, midpoint)
         if sortedList[midpoint] == word:
             return True
         if word > sortedList[midpoint]:
             startpoint = midpoint+1
         else:
             endpoint = midpoint
-#        if word == "SOFTEN":
-#            print("after ifs:", startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
-#    if counter >= 1000:
-#        print(startpoint, midpoint, endpoint, word > sortedList[midpoint], "hi")
     return False
 
 
-#def sortedlyFind(word, sortedList):
-#    if word == sortedList[0] or word == sortedList[-1]:
-#        return True
-#    startpoint = 0
-#    endpoint = len(sortedList)
-#    midpoint = (endpoint-startpoint)//2
-#    counter = 0
-#    while startpoint < endpoint and counter < 1000:
-#        counter+=1
-#        if sortedList[midpoint] == word:
-#            return True
-#        if word > sortedList[midpoint]:
-#            startpoint = midpoint
-#            midpoint = (endpoint-midpoint)//2 + midpoint
-#        else:
-#            endpoint = midpoint
-#            midpoint = (midpoint-startpoint)//2 + startpoint
-#        if endpoint - startpoint == 1 and sortedList[startpoint] != word and sortedList[endpoint] != word:
-#            return False
-#        if counter >= 1000:
-#            print(startpoint, midpoint, endpoint, word > sortedList[midpoint])
-#    return False
 
 def createNumber(word):
     returnNumber = ""
@@ -177,11 +140,8 @@ for shortener in range(len(phoneno)-1):
         for pointer in range(shortener+1):
             wordLen = len(possible)-shortener
             if sortedFind(possible[pointer:wordLen+pointer], words[wordLen]):
-                # when words are found, add them to the list, along with their start and end indexes within the phone number
-                
-                # ADD NEW CODE HERE - CALL FIND, IF WORD NOT FOUND, CONTINUE, IF WORD FOUND, CALL AGAIN WITH AVAILABLE SPACE TO RIGHT??...
-                
                 matches.add((pointer,wordLen+pointer-1,possible[pointer:wordLen+pointer]))
+
 matchEnd = datetime.now()      
 print("Checking for words of all lengths (1 pass) took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
@@ -202,14 +162,23 @@ else:
         if match[0] > 1:
             pres = checkAgain(0,match[0])
             for pre in pres:
-                print("pre:", pre, "match[2]:", match[2],"fullList.add:",(phoneno[:pre[0]]+'-'+phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
-                print("phoneno[:pre[0]]:",phoneno[:pre[0]],"phoneno[pre[1]+1:match[0]]:",phoneno[pre[1]+1:match[0]],"match[2]:",match[2],"phoneno[match[1]+1:]:",phoneno[match[1]+1:])
                 fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
-                
+
+finalList = [fullList.pop()]                
 for oneThing in fullList:
+    letterLength = len(re.findall("[A-Z]", oneThing))
+    found = False
+    for anIndex in range(len(finalList)):
+        if letterLength > len(re.findall("[A-Z]", finalList[anIndex])):
+            found = True
+            finalList = finalList[:anIndex] + [oneThing] + finalList[anIndex:]
+            break
+    if not found:
+        finalList.append(oneThing)
+
+
+for oneThing in finalList:
     print(oneThing)
-
-
 # sample result in matches:
 # (5, 8, 'FAD')
 # a tuple with the word that was found, its starting index in the phone number, and its ending index
