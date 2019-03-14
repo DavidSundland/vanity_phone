@@ -56,15 +56,7 @@ print("sort took",(sorttimerend-sorttimer).total_seconds(),"seconds")
 
 # seed list of words with empty array for 0, letters of alphabet for 1, and empty arrays for 2 through 10
 words = [[],['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],[],[],[],[],[],[],[],[],[]]
-#words2 = []
-#words3 = []
-#words4 = []
-#words5 = []
-#words6 = []
-#words7 = []
-#words8 = []
-#words9 = []
-#words10 = []
+
 
 # to speed checking, divide words by length (if first 5 numbers of 10-digit # match a word, no need comparing remaining 5 to words of length 6 or greater...)
 
@@ -111,23 +103,6 @@ possiblesEnd = datetime.now()
 print("Finding possible combinations took", (possiblesEnd-possiblesStart).total_seconds(), "seconds.")
 
 
-# for possible in possibles:
-#    if sortedFind(possible, words10):
-#        matches.add(possible)
-#matchEnd = datetime.now()      
-#print("Checking for 10-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
-
-#matchStart = datetime.now()
-#shortener = 1 #start looking for shorter words - decrease length by 'shortener' amount; ultimately loop through possibilities...
-#for possible in possibles:
-#    for step in range(shortener+1):
-#        if sortedFind(possible[step:len(possible)-shortener+step], words9):
-#            matches.add(possible[step:len(possible)-shortener+step])
-#matchEnd = datetime.now()      
-#print("Checking for 9-letter matches took", (matchEnd-matchStart).total_seconds(), "seconds.")
-
-# print(len(phoneno))
-
 
 
 matchStart = datetime.now()
@@ -145,25 +120,96 @@ for shortener in range(len(phoneno)-1):
 matchEnd = datetime.now()      
 print("Checking for words of all lengths (1 pass) took", (matchEnd-matchStart).total_seconds(), "seconds.")
 
-fullList = set()
-def checkAgain(start,end):
+
+
+def checkAgain(start):
     moreStuff = set()
     for match in matches:
-        if match[0] >= start and match[1] < end:
+        if match[0] >= start:
             moreStuff.add(match)
     return moreStuff
 
-if len(matches) == 0:
-    print("We found no matches")
-else:
-#    print("Your matches:")
-    for match in matches:
-        fullList.add((phoneno[:match[0]]+'-'+match[2]+'-'+phoneno[match[1]+1:]).strip('-'))
-        if match[0] > 1:
-            pres = checkAgain(0,match[0])
-            for pre in pres:
-                fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+
+def addToWord(item):
+    if item[1] <= len(phoneno) - 2:
+        for match in matches:
+            if match[0] > item[1] and match[1] < len(phoneno):
+                fullList.add((phoneno[:item[0]]+'-'+item[2] + '-' + phoneno[item[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+                recursiveCheck = (item[0],match[1],(item[2] + '-' + phoneno[item[1]+1:match[0]] + '-' + match[2]).strip('-').replace('--','-'))
+                addToWord(recursiveCheck)
                 
+            
+        
+
+#fullList = set(matches)
+#addToWord(0)
+
+# seed the final list with initial list of matches
+fullList = set()
+for match in matches:
+    fullList.add((phoneno[:match[0]]+'-'+match[2]+'-'+phoneno[match[1]+1:]).strip('-'))
+    addToWord(match)
+
+
+
+#if len(matches) == 0:
+#    print("We found no matches")
+#    quit()
+    
+#matchCopy = set(match)
+#****mark****
+# set = function call, returning multiple additions
+# within function call, if there's room left at the end, it calls itself
+# does function call have to return anything?  Could just append to set?
+# let's say function gets called with two numbers, & they yield nothing - it won't call itself again
+# ... it also won't call itself again if it finds a two letter word, as there will be nothing left
+# so... function gets called with start index...
+# function pulls all possible items that can fill spots...
+# after each one is received, if there is room after the end, the function calls itself again...
+# function functionname(index)
+# for match in matches, if match fits within index, append it to set?  (but needs to be tied to part before... so something must be returned OR function must be called with preceding item(s))
+# so if returning something, would have to return a set.  Each set would then be appended to match which called it.
+# word1 calls function
+# function finds word2, word3, word4
+# word2 finds word5, word6; word3 finds word5, word6
+# ...word2word5word6, word3word5word6, word4
+# word1word2word5word6, etc.
+#for match in matches:
+    #fullList.add((phoneno[:match[0]]+'-'+match[2]+'-'+phoneno[match[1]+1:]).strip('-'))  ####??????? need / want this?
+    # fulllist.add(functionName(match, including start & end indices, BUT future calls would have to have modified matches, including interspersing #s and dashes... )
+    # morestuff = function(start index) - but could return multiple items... could I call it with [morestuff]? ... cuz need to have recursive function add in each additional thing... oy!
+
+#for match in matches:
+#    fullList.add((phoneno[:match[0]]+'-'+match[2]+'-'+phoneno[match[1]+1:]).strip('-'))
+#    if match[1] < len(phoneno)-2:
+#        posts = checkAgain(match[1])
+#        for pre in pres:
+#            fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+#        posts = checkAgain(match[1],)
+
+
+#fullList = set()
+#def checkAgain(start,end):
+#    moreStuff = set()
+#    for match in matches:
+#        if match[0] >= start and match[1] < end:
+#            moreStuff.add(match)
+#    return moreStuff
+
+#if len(matches) == 0:
+#    print("We found no matches")
+#else:
+#    print("Your matches:")
+#    for match in matches:
+#        fullList.add((phoneno[:match[0]]+'-'+match[2]+'-'+phoneno[match[1]+1:]).strip('-'))
+#        if match[0] > 1:
+#            pres = checkAgain(0,match[0])
+#            for pre in pres:
+#                fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
+#            posts = checkAgain(match[1],)
+
+
+           
 firstSort = []
 for item in fullList:
     firstSort.append(item)
@@ -182,6 +228,7 @@ for oneThing in firstSort:
             break
     if not found:
         semifinalList.append(oneThing)
+
 
 
 
