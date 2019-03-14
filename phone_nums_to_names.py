@@ -89,6 +89,8 @@ while True:
         continue
 
 print("You entered", phoneno)
+combinations =  3**len(re.findall('[234568]', phoneno))*4**len(re.findall('[79]', phoneno))
+print("Checking",combinations,"possible combinations.")
 
 possiblesStart = datetime.now()
 possibles = [""]
@@ -208,10 +210,16 @@ for match in matches:
 #                fullList.add((phoneno[:pre[0]]+'-'+pre[2] + '-' + phoneno[pre[1]+1:match[0]] + '-' + match[2]+'-'+phoneno[match[1]+1:]).strip('-').replace('--','-'))
 #            posts = checkAgain(match[1],)
 
+if len(fullList) == 0:
+    print("We found no matches")
+    quit()
+ 
 
            
 firstSort = []
 for item in fullList:
+    # Do I want to replace all 2s with As and 4s with Is or create additional combinations with those substitutions??
+    item = item.replace("2","-A-").replace("4","-I-").replace("--","-").strip("-")
     firstSort.append(item)
 firstSort.sort()
 
