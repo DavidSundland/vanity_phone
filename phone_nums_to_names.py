@@ -102,7 +102,7 @@ for digit in phoneno:
     possibles = newpossibilities.copy()
 possiblesEnd = datetime.now()
 # print(possibles)  
-print("Finding possible combinations took", (possiblesEnd-possiblesStart).total_seconds(), "seconds.")
+print("Finding possible words took", (possiblesEnd-possiblesStart).total_seconds(), "seconds.  Now assembling all possible combinations of words and numbers.")
 
 
 
@@ -253,8 +253,8 @@ for oneThing in semifinalList:
     if not found:
         finalList.append(oneThing)
 
-
-for oneThing in finalList:
+maxResults = 100
+for oneThing in finalList[:maxResults]:
     print(oneThing)
 # sample result in matches:
 # (5, 8, 'FAD')
